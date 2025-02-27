@@ -1,0 +1,65 @@
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class shardhaDsa2 {
+// subarray with sum k
+    // brute
+    public static int subArray_With_Sum_k(int arr[], int key) {
+        int count = 0;
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i; j < arr.length; j++) {
+                int sum = 0;
+                for (int k = i; k <= j; k++) {
+                    sum += arr[k];
+                }
+                if (sum == key) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    // Better
+    public static int better_subArray_With_Sum_k(int arr[], int key) {
+        int count = 0;
+        for (int i = 0; i < arr.length; i++) {
+            int sum = 0;
+            for (int j = i; j < arr.length; j++) {
+                sum += arr[j];
+                if (sum == key) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }   
+
+    //Optimal
+    public static int optimal_subArray_With_Sum_k(int arr[], int key) {
+        Map<Integer, Integer> mpp = new HashMap<>();
+        int preSum = 0, count = 0;
+        mpp.put(0, 1);
+        for (int i = 0; i < arr.length; i++) {
+            preSum += arr[i];
+            int remove = preSum - key;
+            count += mpp.getOrDefault(remove, 0);
+            mpp.put(preSum, mpp.getOrDefault(preSum, 0) + 1);
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+       
+        //  Count Subarrays with sum k
+        int arr[] = { 1, 2, 3, -3, 1, 1, 1, 4, 2, -3 };
+        int key = 3;
+        // System.out.println("Total Sub array is : " + subArray_With_Sum_k(arr, key));
+        // System.out.println("Total Sub array is : " + better_subArray_With_Sum_k(arr,
+        // key));
+        System.out.println("Total Sub array is : " + optimal_subArray_With_Sum_k(arr, key));
+
+        sc.close();
+    }
+}
