@@ -1,0 +1,10 @@
+// Power x n
+public static double power_x_n(double x, int n) {
+    return Math.pow(x, n);
+}
+
+
+// inside main function 
+double x = 2.5;
+int n = -5;
+System.out.println(x + " to the power " + n + " is : " + power_x_n(x, n));
