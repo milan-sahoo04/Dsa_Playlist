@@ -1,0 +1,11 @@
+ public static void single(int nums[]) {
+        int xor = 0;
+        for (int i = 0; i < nums.length; i++) {
+            xor ^= nums[i];
+        }
+        System.out.println("Single Number is : " + xor);
+    }
+
+ //Single Number
+  int nums[] = { 1, 2, 3, 3, 2, 1, 4 };
+  single(nums);
