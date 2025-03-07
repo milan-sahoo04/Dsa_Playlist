@@ -1,0 +1,70 @@
+//brute 
+    public static boolean brute_search_matrix(int matrix[][], int key) {
+        int n = matrix.length, m = matrix[0].length;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (matrix[i][j] == key)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    //better
+    public static boolean better_search_matrix(int matrix[][], int key) {
+        int n = matrix.length;
+        int start = 0, end = n - 1;
+        while (start <= end) {
+            int mid = (start + end) / 2;
+            if (matrix[mid][0] == key)
+                return true;
+            else if (matrix[mid][0] < key) {
+                start = mid++;
+            } else {
+                end = mid--;
+            }
+        }
+        return false;
+    }
+
+    //optimal
+    public static boolean optimal_search_matrix(int matrix[][], int key) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+        int start = 0, end = n * m - 1;
+        while (start <= end) {
+            int mid = (start + end) / 2;
+            int row = mid / m;
+            int col = mid % m;
+            if (matrix[row][col] == key)
+                return true;
+            else if (matrix[row][col] < key) {
+                start = mid++;
+            } else {
+                end = mid--;
+            }
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        //Search 2D Matrix
+        int matrix[][] = new int[2][2];
+        System.out.println("enter 2D matrix : ");
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                matrix[i][j] = sc.nextInt();
+            }
+        }
+
+        System.out.println("enter key ");
+        int key = sc.nextInt();
+        // System.out.println("Matrix is : " + brute_search_matrix(matrix, key));
+        // System.out.println("Matrix is : " + better_search_matrix(matrix, key));
+        System.out.println("Matrix is : " + optimal_search_matrix(matrix, key));
+
+        sc.close();
+    }
+}
