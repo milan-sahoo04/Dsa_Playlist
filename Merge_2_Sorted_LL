@@ -1,0 +1,100 @@
+import java.util.*;
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode() {
+    }
+
+    ListNode(int val) {
+        this.val = val;
+    }
+
+    ListNode(int val, ListNode next) {
+        this.val = val;
+        this.next = next;
+    }
+}
+
+class Solution {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+
+        // BRUTE
+        // List<Integer> values = new ArrayList<>();
+
+        // // Collect values from list1
+        // while (list1 != null) {
+        // values.add(list1.val);
+        // list1 = list1.next;
+        // }
+
+        // // Collect values from list2
+        // while (list2 != null) {
+        // values.add(list2.val);
+        // list2 = list2.next;
+        // }
+
+        // // Sort all values
+        // Collections.sort(values);
+
+        // // Create new sorted linked list
+        // ListNode dummy = new ListNode(0);
+        // ListNode current = dummy;
+
+        // for (int val : values) {
+        // current.next = new ListNode(val);
+        // current = current.next;
+        // }
+
+        // return dummy.next;
+
+        // OPTIMAL
+        // Create a dummy node to start the merged list
+        ListNode dummy = new ListNode(-1);
+        ListNode temp = dummy;
+
+        // Traverse both lists while both are not null
+        while (list1 != null && list2 != null) {
+            if (list1.val <= list2.val) {
+                temp.next = list1; // attach the smaller node
+                list1 = list1.next; // move forward in list1
+            } else {
+                temp.next = list2; // attach the smaller node
+                list2 = list2.next; // move forward in list2
+            }
+            temp = temp.next; // move temp to the newly added node
+        }
+
+        // If one of the lists still has nodes left, attach it
+        if (list1 != null) {
+            temp.next = list1;
+        } else {
+            temp.next = list2;
+        }
+
+        // Return the head of the merged list (next of dummy)
+        return dummy.next;
+
+    }
+}
+
+public class Merge2_Sorted_LL {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Solution sol = new Solution();
+
+        ListNode l1 = new ListNode(1, new ListNode(3, new ListNode(5, new ListNode(0))));
+        ListNode l2 = new ListNode(2, new ListNode(4, new ListNode(6)));
+
+        ListNode result = sol.mergeTwoLists(l1, l2);
+
+        // Print the result
+        while (result != null) {
+            System.out.print(result.val + " -> ");
+            result = result.next;
+        }
+        System.out.println("null");
+        sc.close();
+    }
+}
