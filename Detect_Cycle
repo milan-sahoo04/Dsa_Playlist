@@ -1,0 +1,105 @@
+
+import java.util.HashMap;
+import java.util.Map;
+
+// Node class represents a
+// node in a linked list
+class Node {
+    // Data stored in the node
+    public int data;
+    // Pointer to the next node in the list
+    public Node next;
+
+    // Constructor with both data
+    // and next node as parameters
+    public Node(int data, Node next) {
+        this.data = data;
+        this.next = next;
+    }
+
+    // Constructor with only data as
+    // a parameter, sets next to null
+    public Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+public class detectCycle {
+    // Function to detect a
+    // loop in a linked list
+    // BRUTE
+    // public static boolean detectLoop(Node head) {
+    // // Initialize a pointer 'temp'
+    // // at the head of the linked list
+    // Node temp = head;
+
+    // // Create a map to keep track
+    // // of encountered nodes
+    // Map<Node, Integer> nodeMap = new HashMap<>();
+
+    // // Step 2: Traverse the linked list
+    // while (temp != null) {
+    // // If the node is already in
+    // // the map, there is a loop
+    // if (nodeMap.containsKey(temp)) {
+    // return true;
+    // }
+    // // Store the current node in the map
+    // nodeMap.put(temp, 1);
+    // // Move to the next node
+    // temp = temp.next;
+    // }
+
+    // // Step 3: If the list is successfully
+    // // traversed without a loop, return false
+    // return false;
+    // }
+
+    // OPTIMAL
+    public static boolean detectLoop(Node head) {
+        // Initialize two pointers, slow and fast,
+        // to the head of the linked list
+        Node slow = head;
+        Node fast = head;
+
+        // Step 2: Traverse the linked list
+        // with the slow and fast pointers
+        while (fast != null && fast.next != null) {
+            // Move slow one step
+            slow = slow.next;
+            // Move fast two steps
+            fast = fast.next.next;
+
+            // Check if slow and fast pointers meet
+            if (slow == fast) {
+                return true; // Loop detected
+            }
+        }
+
+        // If fast reaches the end of the
+        // list, there is no loop
+        return false;
+    }
+
+    public static void main(String[] args) {
+        // Create a sample linked list
+        // with a loop for testing
+        Node head;
+        head = new Node(1);
+        head.next = new Node(2);
+        head.next.next = new Node(3);
+        head.next.next.next = head;
+
+        // Check if there is a loop
+        // in the linked list
+        if (detectLoop(head)) {
+            System.out.println("Loop detected in the linked list.");
+        } else {
+            System.out.println("No loop detected in the linked list.");
+        }
+
+        // No need to explicitly free memory
+        // in Java; the garbage collector handles it
+    }
+}
