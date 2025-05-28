@@ -1,0 +1,81 @@
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+public class detect_remove {
+
+    public static boolean detectAndRemoveCycle(Node head) {
+        if (head == null || head.next == null)
+            return false;
+
+        Node slow = head, fast = head;
+
+        // Step 1: Detect cycle
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if (slow == fast) {
+                // Step 2: Remove cycle
+                removeCycle(slow, head);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static void removeCycle(Node meetingPoint, Node head) {
+        Node ptr1 = head;
+        Node ptr2 = meetingPoint;
+
+        // If cycle starts at head
+        if (ptr1 == ptr2) {
+            while (ptr2.next != ptr1) {
+                ptr2 = ptr2.next;
+            }
+            ptr2.next = null;
+            return;
+        }
+
+        while (ptr1.next != ptr2.next) {
+            ptr1 = ptr1.next;
+            ptr2 = ptr2.next;
+        }
+        ptr2.next = null;
+    }
+
+    // Utility method to print the linked list
+    public static void printList(Node head) {
+        Node temp = head;
+        while (temp != null) {
+            System.out.print(temp.data + " -> ");
+            temp = temp.next;
+        }
+        System.out.println("null");
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        Node head = new Node(1);
+        Node temp = new Node(2);
+        head.next = temp;
+        temp.next = new Node(3);
+        temp.next.next = new Node(4);
+        temp.next.next.next = temp; // Create cycle: 4 -> 2
+
+        if (detectAndRemoveCycle(head)) {
+            System.out.println("Cycle detected and removed.");
+        } else {
+            System.out.println("No cycle found.");
+        }
+
+        // Print list to verify
+        printList(head);
+    }
+}
